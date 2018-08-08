@@ -14,44 +14,45 @@ function drawTransTax(tax) {
   drawTransTotal(total)
 }
 function drawTransTotal(total) {
-
   document.getElementById('total').innerText = total;
 }
 
 function draw() {
-  let product1 = storeService.iceman
-  let product2 = storeService.beast
-  let product3 = storeService.razorback
-  let subTotal = storeService.addToCart.newtotal
+  let items = storeService.items
   let template = `
-  <div class="row">
-  <div class="col-sm-4">
-    <div>
-      <img src="${product1.img}" alt="target image" onclick='app.controllers.storeController.addToCart("a1")' />
+  `
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    if (item.stock == 0) {
+      template += `
+      <div class="col-sm-4">
+      <div>
+        <img src="../../../assets/oos.png" alt="target image" onclick='app.controllers.storeController.addToCart("${item.id}")' />
+      </div>
+      <div>
+        <h2>${item.name}</h2>
+      </div>
+      <div>
+        <h2>$${item.price}</h2>
+      </div>
     </div>
-    <div>
-      <h2>${product1.name}</h2>
+      `
+    } else {
+      template += `
+      <div class="col-sm-4">
+      <div>
+        <img src="${item.img}" alt="target image" onclick='app.controllers.storeController.addToCart("${item.id}")' />
+      </div>
+      <div>
+        <h2>${item.name}</h2>
+      </div>
+      <div>
+        <h2>$${item.price}</h2>
+      </div>
     </div>
-    <div>
-      <h2>$${product1.price}</h2>
-    </div>
-  </div>
-  <div class="col-sm-4">
-    <div>
-      <img src="${product2.img}" alt="target image" onclick='app.controllers.storeController.addToCart("a2")' />
-    </div>
-    <h2>${product2.name}</h2>
-    <h2>$${product2.price}</h2>
-  </div>
-  <div class="col-sm-4">
-    <div>
-      <img src="${product3.img}" alt="target image" onclick='app.controllers.storeController.addToCart("a3")' />
-    </div>
-    <h2>${product3.name}</h2>
-    <h2>$${product3.price}</h2>
-  </div>
-  </div>
-`
+      `
+    }
+  }
   document.getElementById("store").innerHTML = template;
 }
 
@@ -63,6 +64,13 @@ class StoreController {
   addToCart(id) {
     let newtotal = storeService.addToCart(id);
     drawTransSubTotal(newtotal)
+    draw()
+  }
+
+  checkout() {
+    storeService.checkout()
+    drawTransTotal(0)
+    draw()
   }
 }
 

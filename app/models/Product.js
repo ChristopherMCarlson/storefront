@@ -16,6 +16,7 @@ class Product {
       product.stock--;
       subtotal += product.price;
     }
+    console.log(product.stock)
     return subtotal
   }
 }

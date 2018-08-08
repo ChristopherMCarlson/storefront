@@ -1,6 +1,9 @@
 import Product from '../../models/Product.js'
 
+import Store from '../../models/Store.js'
+
 let product = new Product
+let store = new Store
 
 let iceman = new Product('Ibanez Iceman', '../../../assets/iceman.png', 500, 5, 'a1');
 let beast = new Product('BC Rich Beast', '../../../assets/beast.png', 450, 10, 'a2');
@@ -12,40 +15,29 @@ class StoreService {
     this.total = 0
   }
 
-  get iceman() {
-    return {
-      name: iceman.name,
-      img: iceman.img,
-      price: iceman.price,
-      stock: iceman.stock,
-      id: iceman.id
-    }
-  }
+  get items() {
+    let itemsCopy = []
 
-  get beast() {
-    return {
-      name: beast.name,
-      img: beast.img,
-      price: beast.price,
-      stock: beast.stock,
-      id: beast.id
-    }
-  }
-
-  get razorback() {
-    return {
-      name: razorback.name,
-      img: razorback.img,
-      price: razorback.price,
-      stock: razorback.stock,
-      id: razorback.id
-    }
+    items.forEach(item => {
+      itemsCopy.push({
+        name: item.name,
+        img: item.img,
+        price: item.price,
+        stock: item.stock,
+        id: item.id
+      })
+    })
+    return itemsCopy
   }
 
   addToCart(id) {
     let newItem = items.find(itemid => itemid.id == id);
     let newTotal = product.addToCart(newItem);
     return newTotal
+  }
+
+  checkout(transTotal) {
+    store.checkout(transTotal)
   }
 
 
