@@ -10,3 +10,5 @@ class App {
 }
 
 window.app = new App;
+
+console.log('Hello from main.js!')
